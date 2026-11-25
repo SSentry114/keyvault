@@ -1,0 +1,57 @@
+
+name: Build Flutter iOS XCArchive
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-ios:
+    runs-on: macos-15
+
+    steps:
+      # 1. Checkout source code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Setup Flutter
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.4'
+          channel: stable
+          cache: true
+
+      # 3. Check environment
+      - name: Check Flutter and Xcode
+        run: |
+          flutter --version
+          xcodebuild -version
+          xcodebuild -showsdks
+
+      # 4. Get Flutter dependencies
+      - name: Flutter Pub Get
+        run: flutter pub get
+
+      # 5. Install CocoaPods dependencies
+      - name: Install Pods
+        run: |
+          cd ios
+          pod install --repo-update
+          cd ..
+
+      # 6. Build XCArchive
+      - name: Build iOS Archive
+        run: |
+          flutter build ipa --release --no-codesign
+
+      # 7. Upload XCArchive
+      - name: Upload XCArchive
+        uses: actions/upload-artifact@v4
+        with:
+          name: Runner-xcarchive
+          path: build/ios/archive/*.xcarchive
+          if-no-files-found: error
+          retention-days: 7

@@ -24,6 +24,13 @@ jobs:
           channel: stable
           cache: true
 
+ # 2B. Remove stale Windows configuration
+      - name: Clean old Flutter iOS configuration
+        run: |
+          rm -f ios/Flutter/Generated.xcconfig
+          rm -f ios/Flutter/flutter_export_environment.sh
+          rm -f ios/Flutter/ephemeral/flutter_lldbinit
+
       # 3. Check environment
       - name: Check Flutter and Xcode
         run: |

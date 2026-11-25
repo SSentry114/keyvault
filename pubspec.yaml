@@ -1,0 +1,37 @@
+name: reading_session_app
+description: "Reading Session - iOS runner app. Toàn bộ nội dung app đến từ package user_screen trên GitHub."
+publish_to: 'none'
+version: 1.0.1+2
+
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Ruột của app: lib Reading-Session lấy trực tiếp từ GitHub
+  user_screen:
+    git:
+      url: https://github.com/vndn-appbuilder-team3/TimerStack.git
+      ref: main
+
+  all_in_one_sdk:
+    git:
+      url: https://github.com/codewithlane/sdk-all-in-one.git
+
+  http: ^1.2.0
+  package_info_plus: ^8.0.0
+  url_launcher: ^6.3.0
+  flutter_inappwebview: ^6.1.5
+  shared_preferences: ^2.5.3
+
+dev_dependencies:
+  integration_test:
+    sdk: flutter
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
